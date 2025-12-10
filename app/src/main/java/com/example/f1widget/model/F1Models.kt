@@ -24,6 +24,12 @@ data class DriverStanding(
 
     @SerializedName("Constructors") val constructors: List<Constructor>
 )
+data class ConstructorStanding(
+    @SerializedName("position") val position: String,
+    @SerializedName("points") val points: String,
+    @SerializedName("wins") val wins: String,
+    @SerializedName("Constructor") val constructorInfo: Constructor
+)
 
 // Wrappers
 data class F1Response(
@@ -40,5 +46,7 @@ data class StandingsTable(
 
 data class StandingsList(
     @SerializedName("season") val season: String,
-    @SerializedName("DriverStandings") val driverStandings: List<DriverStanding>
+    @SerializedName("DriverStandings") val driverStandings: List<DriverStanding>,
+    @SerializedName("ConstructorStandings") val constructorStandings: List<ConstructorStanding>
+
 )

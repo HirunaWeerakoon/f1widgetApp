@@ -1,10 +1,13 @@
 package com.example.f1widget.presentation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.f1widget.model.Driver
 import com.example.f1widget.model.DriverStanding
 import com.example.f1widget.model.Constructor
+import com.example.f1widget.model.ConstructorStanding
+import com.example.f1widget.ui.theme.F1Red
 import com.example.f1widget.viewmodel.F1ViewModel
 
 // 1. THE SMART SCREEN (Stateful)
@@ -29,6 +34,9 @@ fun DriverListScreen(viewModel: F1ViewModel) {
     DriverListContent(
         drivers = drivers,
         isLoading = isLoading,
+        constructors = viewModel.constructors.value, // Pass the new list
+        selectedTab = viewModel.selectTab.value,
+        onTabSelected = { index -> viewModel.changeTab(index) },
         error = error
     )
 }
@@ -37,31 +45,63 @@ fun DriverListScreen(viewModel: F1ViewModel) {
 // This takes basic variables (List, Boolean, String).
 // It doesn't know what a "ViewModel" or "Internet" is.
 // WE CAN PREVIEW THIS!
+// ... imports including TabRow, Tab
+
 @Composable
 fun DriverListContent(
     drivers: List<DriverStanding>,
+    constructors: List<ConstructorStanding>, // Pass the new list
+    selectedTab: Int,                        // Pass the tab index
+    onTabSelected: (Int) -> Unit,            // Action when tab clicked
     isLoading: Boolean,
     error: String?
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else if (error != null) {
-            Text(
-                text = error,
-                color = Color.Red,
-                modifier = Modifier.align(Alignment.Center)
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        // 1. THE TABS
+        androidx.compose.material3.TabRow(
+            selectedTabIndex = selectedTab,
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = Color.White,
+            indicator = { tabPositions ->
+                // Default indicator is fine, or customize it
+                androidx.compose.material3.TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                    color = F1Red
+                )
+            }
+        ) {
+            androidx.compose.material3.Tab(
+                selected = selectedTab == 0,
+                onClick = { onTabSelected(0) },
+                text = { Text("DRIVERS") }
             )
-        } else {
-            LazyColumn {
-                items(drivers) { driver ->
-                    DriverItem(driver = driver)
+            androidx.compose.material3.Tab(
+                selected = selectedTab == 1,
+                onClick = { onTabSelected(1) },
+                text = { Text("CONSTRUCTORS") }
+            )
+        }
+
+        // 2. THE CONTENT
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (error != null) {
+                Text(text = error, color = Color.Red, modifier = Modifier.align(Alignment.Center))
+            } else {
+                // SWITCH LIST BASED ON TAB
+                LazyColumn {
+                    if (selectedTab == 0) {
+                        items(drivers) { driver -> DriverItem(driver) }
+                    } else {
+                        items(constructors) { team -> ConstructorItem(team) }
+                    }
                 }
             }
         }
     }
 }
-
 // 3. THE PREVIEW
 // Now we can create fake data and verify the layout without running the app.
 @Preview(showBackground = true)
@@ -75,7 +115,10 @@ fun DriverListPreview() {
         familyName = "Verstappen",
         nationality = "Dutch"
     )
-    val mockConstructor = Constructor(constructorId = "rb", name = "Red Bull Racing")
+    val mockConstructor = Constructor(
+        constructorId = "rb",
+        name = "Red Bull Racing"
+    )
 
     val mockStanding = DriverStanding(
         position = "1",
@@ -88,6 +131,9 @@ fun DriverListPreview() {
     DriverListContent(
         drivers = listOf(mockStanding, mockStanding, mockStanding),
         isLoading = false,
+        constructors =listOf() ,
+        selectedTab = 0,
+        onTabSelected = {},
         error = null
     )
 }

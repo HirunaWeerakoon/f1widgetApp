@@ -1,18 +1,25 @@
 package com.example.f1widget.network
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
 
-    // 1. The Secure Base URL (Note the 's' in https)
     private const val BASE_URL = "https://api.jolpi.ca/ergast/f1/"
 
-    // 2. The Builder
-    // This creates the Retrofit object and tells it how to parse JSON
+    // 1. Create a Client with longer timeouts
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    // 2. Attach the client to Retrofit
     val api: F1ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client) // <--- Add this line
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(F1ApiService::class.java)

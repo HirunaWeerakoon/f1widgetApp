@@ -11,4 +11,9 @@ interface F1ApiService {
 
     @GET("current/driverStandings.json")
     suspend fun getDriverStandings(): F1Response
+
+    @GET("current/constructorStandings.json")
+    suspend fun getConstructorStandings(): F1Response
 }
+
+
