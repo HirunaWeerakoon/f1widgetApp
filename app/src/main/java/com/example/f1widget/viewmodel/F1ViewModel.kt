@@ -3,14 +3,17 @@ package com.example.f1widget.viewmodel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.f1widget.model.ConstructorStanding
 import com.example.f1widget.model.DriverStanding
 import com.example.f1widget.network.RetrofitInstance
 import kotlinx.coroutines.launch
+import com.example.f1widget.repository.F1Repository
 
-class F1ViewModel : ViewModel() {
-
+class F1ViewModel(private val repository: F1Repository) : ViewModel() {
     // 1. State: What the UI sees
     // We use a private _state (mutable) and a public state (immutable)
     private val _drivers = mutableStateOf<List<DriverStanding>>(emptyList())
@@ -47,20 +50,41 @@ class F1ViewModel : ViewModel() {
 
             try {
                 if (_selectedTab.value == 0) {
-                    // Fetch Drivers
-                    val response = RetrofitInstance.api.getDriverStandings()
-                    val list = response.mrData.standingsTable.standingsLists.firstOrNull()
-                    _drivers.value = list?.driverStandings ?: emptyList()
+                    // OLD: val response = RetrofitInstance.api.getDriverStandings()...
+
+                    // NEW: Ask the Repository
+                    val list = repository.getDrivers()
+                    _drivers.value = list
+
                 } else {
-                    // Fetch Teams
+                    // For now, keep the old way for Constructors
+                    // (unless you added caching for them too!)
                     val response = RetrofitInstance.api.getConstructorStandings()
-                    val list = response.mrData.standingsTable.standingsLists.firstOrNull()
-                    _constructors.value = list?.constructorStandings ?: emptyList()
+                    val list = response.mrData.standingsTable.standingsLists.firstOrNull()?.constructorStandings ?: emptyList()
+                    _constructors.value = list
                 }
             } catch (e: Exception) {
                 _error.value = "Error: ${e.message}"
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // 1. Get the Application Context
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as android.app.Application)
+
+                // 2. Get the Database & DAO
+                val database = com.example.f1widget.data.F1Database.getDatabase(application)
+                val dao = database.f1Dao()
+
+                // 3. Create the Repository
+                val repository = F1Repository(dao)
+
+                // 4. Return the ViewModel with the repo
+                F1ViewModel(repository)
             }
         }
     }

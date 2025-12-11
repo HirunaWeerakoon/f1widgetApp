@@ -1,6 +1,9 @@
 package com.example.f1widget.model
 
 import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 
 data class Driver(
     @SerializedName("driverId") val driverId: String,
@@ -15,17 +18,22 @@ data class Constructor(
     @SerializedName("name") val name: String
 )
 
+@Entity(tableName = "driver_standings") // <--- This makes it a Database Table
 data class DriverStanding(
-    @SerializedName("position") val position: String,
+
+    @PrimaryKey // <--- This ensures every row is unique
+    @SerializedName("position")
+    val position: String,
+
     @SerializedName("points") val points: String,
-
-    // THIS is the magic. JSON "Driver" -> Kotlin "driverInfo"
     @SerializedName("Driver") val driverInfo: Driver,
-
     @SerializedName("Constructors") val constructors: List<Constructor>
 )
+@Entity(tableName = "constructor_standings")
 data class ConstructorStanding(
+    @PrimaryKey
     @SerializedName("position") val position: String,
+
     @SerializedName("points") val points: String,
     @SerializedName("wins") val wins: String,
     @SerializedName("Constructor") val constructorInfo: Constructor

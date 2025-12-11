@@ -14,13 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.f1widget.presentation.DriverListScreen
 import com.example.f1widget.ui.theme.F1WidgetTheme
 import com.example.f1widget.viewmodel.F1ViewModel
+import androidx.activity.viewModels
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: F1ViewModel by viewModels { F1ViewModel.Factory }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Create the ViewModel
-        val viewModel = F1ViewModel()
 
         setContent {
             F1WidgetTheme { // Use your theme name
