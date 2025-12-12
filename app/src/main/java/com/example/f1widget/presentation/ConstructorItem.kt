@@ -41,14 +41,14 @@ fun ConstructorItem(team: ConstructorStanding) {
                 text = team.constructorInfo.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
 
             // Points
             Column(horizontalAlignment = Alignment.End) {
-                Text(text = "${team.points} PTS", fontWeight = FontWeight.Bold, color = Color.White)
-                Text(text = "${team.wins} Wins", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                Text(text = "${team.points} PTS", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = "${team.wins} Wins", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
             }
         }
     }

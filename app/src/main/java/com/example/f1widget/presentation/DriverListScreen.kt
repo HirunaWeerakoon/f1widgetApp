@@ -62,7 +62,7 @@ fun DriverListContent(
         androidx.compose.material3.TabRow(
             selectedTabIndex = selectedTab,
             containerColor = MaterialTheme.colorScheme.background,
-            contentColor = Color.Black,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             indicator = { tabPositions ->
                 // Default indicator is fine, or customize it
                 androidx.compose.material3.TabRowDefaults.Indicator(

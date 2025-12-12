@@ -58,10 +58,10 @@ fun DriverItem(driver: DriverStanding) {
                 style = MaterialTheme.typography.displaySmall, // BIG font
                 fontWeight = FontWeight.Black,
                 fontStyle = FontStyle.Italic, // Fast feeling
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .width(40.dp) // Fixed width so names align nicely
+                     // Fixed width so names align nicely
             )
 
             // 3. Driver Image (The new Feature)
@@ -94,13 +94,13 @@ fun DriverItem(driver: DriverStanding) {
                 Text(
                     text = driver.driverInfo.givenName,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.DarkGray
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
                 Text(
                     text = driver.driverInfo.familyName.uppercase(), // F1 uses UPPERCASE names
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = driver.constructors.firstOrNull()?.name ?: "",
@@ -117,12 +117,14 @@ fun DriverItem(driver: DriverStanding) {
                 Text(
                     text = "PTS",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.Gray
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
                 Text(
                     text = driver.points,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+
                 )
             }
         }
