@@ -29,4 +29,13 @@ class Converters {
         val listType = object : TypeToken<List<Constructor>>() {}.type
         return gson.fromJson(value, listType)
     }
+    @TypeConverter
+    fun fromConstructor(constructor: Constructor): String {
+        return gson.toJson(constructor)
+    }
+
+    @TypeConverter
+    fun toConstructor(constructorString: String): Constructor {
+        return gson.fromJson(constructorString, Constructor::class.java)
+    }
 }

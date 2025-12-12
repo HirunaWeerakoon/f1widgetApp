@@ -1,6 +1,7 @@
 package com.example.f1widget.repository
 
 import com.example.f1widget.data.F1Dao
+import com.example.f1widget.model.ConstructorStanding
 import com.example.f1widget.model.DriverStanding
 import com.example.f1widget.network.RetrofitInstance
 
@@ -29,6 +30,28 @@ class F1Repository(private val dao: F1Dao) {
                 return cachedDrivers // Success! We survived offline.
             } else {
                 // 5. If Database is ALSO empty, re-throw the error (Real failure)
+                throw e
+            }
+        }
+    }
+    suspend fun getConstructors(): List<ConstructorStanding> {
+        try {
+            // 1. Network
+            val response = RetrofitInstance.api.getConstructorStandings()
+            val teams = response.mrData.standingsTable.standingsLists.firstOrNull()?.constructorStandings ?: emptyList()
+
+            // 2. Cache
+            if (teams.isNotEmpty()) {
+                dao.insertConstructors(teams)
+            }
+            return teams
+
+        } catch (e: Exception) {
+            // 3. Fallback
+            val cachedTeams = dao.getAllConstructors()
+            if (cachedTeams.isNotEmpty()) {
+                return cachedTeams
+            } else {
                 throw e
             }
         }

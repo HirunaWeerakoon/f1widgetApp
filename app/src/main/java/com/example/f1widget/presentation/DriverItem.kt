@@ -58,7 +58,7 @@ fun DriverItem(driver: DriverStanding) {
                 style = MaterialTheme.typography.displaySmall, // BIG font
                 fontWeight = FontWeight.Black,
                 fontStyle = FontStyle.Italic, // Fast feeling
-                color = Color.Black,
+                color = Color.White,
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .width(40.dp) // Fixed width so names align nicely

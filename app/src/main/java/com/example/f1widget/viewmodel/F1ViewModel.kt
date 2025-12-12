@@ -59,9 +59,10 @@ class F1ViewModel(private val repository: F1Repository) : ViewModel() {
                 } else {
                     // For now, keep the old way for Constructors
                     // (unless you added caching for them too!)
-                    val response = RetrofitInstance.api.getConstructorStandings()
-                    val list = response.mrData.standingsTable.standingsLists.firstOrNull()?.constructorStandings ?: emptyList()
+                    //val response = RetrofitInstance.api.getConstructorStandings()
+                    val list = repository.getConstructors()
                     _constructors.value = list
+
                 }
             } catch (e: Exception) {
                 _error.value = "Error: ${e.message}"

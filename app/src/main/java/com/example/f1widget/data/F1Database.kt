@@ -5,11 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.f1widget.model.ConstructorStanding
 import com.example.f1widget.model.Converters
 import com.example.f1widget.model.DriverStanding
 
 // Add ConstructorStanding to entities array if you annotated it
-@Database(entities = [DriverStanding::class], version = 1)
+@Database(
+    entities = [DriverStanding::class, ConstructorStanding::class], version = 2, exportSchema = false
+)
+
 @TypeConverters(Converters::class) // Register the GSON converters
 abstract class F1Database : RoomDatabase() {
 
@@ -25,7 +29,9 @@ abstract class F1Database : RoomDatabase() {
                     context.applicationContext,
                     F1Database::class.java,
                     "f1_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

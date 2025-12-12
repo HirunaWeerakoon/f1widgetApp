@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,8 +68,15 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
     val room_version = "2.6.1"
 
+    implementation("androidx.glance:glance:1.1.0")
+
     implementation("androidx.room:room-runtime:$room_version")
 // The annotation processor writes the SQL code for you
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version") // Extensions for Coroutines
+
+    implementation("androidx.glance:glance-appwidget:1.1.0")
+    implementation("androidx.glance:glance-material3:1.1.0")
+
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }
