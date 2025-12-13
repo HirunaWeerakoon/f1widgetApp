@@ -65,7 +65,7 @@ class F1Widget : GlanceAppWidget() {
             modifier = GlanceModifier
                 .fillMaxSize()
                 .background(Color.Black)
-                .padding(12.dp)
+                .padding(20.dp)
         ) {
             // HEADER
             Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
@@ -77,12 +77,12 @@ class F1Widget : GlanceAppWidget() {
                     style = TextStyle(
                         color = ColorProvider(Color.White),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 14.sp
                     )
                 )
             }
 
-            Spacer(modifier = GlanceModifier.height(12.dp))
+            Spacer(modifier = GlanceModifier.height(4.dp))
 
             if (drivers.isEmpty()) {
                 // Loading or Error State
@@ -94,7 +94,7 @@ class F1Widget : GlanceAppWidget() {
                 // DATA ROWS
                 drivers.forEach { driver ->
                     WidgetDriverRow(driver)
-                    Spacer(modifier = GlanceModifier.height(8.dp))
+                    Spacer(modifier = GlanceModifier.height(4.dp))
                 }
             }
         }
@@ -106,8 +106,8 @@ class F1Widget : GlanceAppWidget() {
             modifier = GlanceModifier
                 .fillMaxWidth()
                 .background(Color(0xFF1E1E1E)) // Dark Gray Card
-                .cornerRadius(8.dp)
-                .padding(8.dp),
+                .cornerRadius(6.dp)
+                .padding(horizontal = 8.dp, vertical = 6.dp),
             verticalAlignment = Alignment.Vertical.CenterVertically
         ) {
             // Position
@@ -126,7 +126,7 @@ class F1Widget : GlanceAppWidget() {
             Image(
                 provider = ImageProvider(DriverImageUtil.getDriverImage(driver.driverInfo.driverId)),
                 contentDescription = "Driver",
-                modifier = GlanceModifier.size(32.dp)
+                modifier = GlanceModifier.size(28.dp)
             )
 
             Spacer(modifier = GlanceModifier.width(8.dp))
@@ -138,7 +138,7 @@ class F1Widget : GlanceAppWidget() {
                     style = TextStyle(
                         color = ColorProvider(Color.White),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
+                        fontSize = 13.sp
                     )
                 )
                 Text(

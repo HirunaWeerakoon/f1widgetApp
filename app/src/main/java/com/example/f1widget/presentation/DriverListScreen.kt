@@ -3,6 +3,7 @@ package com.example.f1widget.presentation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -56,7 +57,9 @@ fun DriverListContent(
     isLoading: Boolean,
     error: String?
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()
+        .systemBarsPadding()
+    ) {
 
         // 1. THE TABS
         androidx.compose.material3.TabRow(

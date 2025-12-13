@@ -6,7 +6,7 @@ object DriverImageUtil {
     // Returns an Int (Drawable Resource ID) instead of a String
     fun getDriverImage(driverId: String): Int {
         return when (driverId) {
-            "verstappen" -> R.drawable.driver_verstappen
+            "max_verstappen" -> R.drawable.driver_verstappen
             "hamilton" -> R.drawable.driver_hamilton
             "leclerc" -> R.drawable.driver_leclerc
             "sainz" -> R.drawable.driver_sainz
@@ -17,6 +17,18 @@ object DriverImageUtil {
             "gasly" -> R.drawable.driver_gasly
             "tsunoda"->R.drawable.driver_tsunoda
             "antonelli"->R.drawable.driver_antonelli
+            "alonso"->R.drawable.driver_alonso
+            "tsunoda"->R.drawable.driver_tsunoda
+            "bortoleto"->R.drawable.driver_bortoleto
+            "stroll"->R.drawable.driver_stroll
+            "lawson"->R.drawable.driver_lawson
+            "colapinto"->R.drawable.driver_colapinto
+            "ocon"->R.drawable.driver_ocon
+            "russell"->R.drawable.driver_russell
+            "hulkenberg"->R.drawable.driver_nico
+            "hadjar"->R.drawable.driver_hadjar
+            "doohan"->R.drawable.driver_doohan
+
 
 
 
